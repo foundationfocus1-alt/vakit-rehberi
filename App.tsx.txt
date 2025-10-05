@@ -1,14 +1,35 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Audio } from 'expo-av';
 
 export default function App() {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+
+  async function playSound() {
+    console.log('Ezan sesi çalınıyor...');
+    const { sound } = await Audio.Sound.createAsync(
+      require('./assets/sounds/ezan.mp3')
+    );
+    setSound(sound);
+    await sound.playAsync();
+  }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Ezan sesi kapatılıyor...');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>📿 Vakit Rehberi</Text>
       <Text style={styles.subtitle}>Hoşgeldiniz 🙌</Text>
-      <Text style={styles.text}>
-        Burada namaz vakitleri, kıble, Kur’an, hadis ve dualar olacak.
-      </Text>
+      <TouchableOpacity style={styles.button} onPress={playSound}>
+        <Text style={styles.buttonText}>▶️ Ezan Sesini Çal</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -32,9 +53,16 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 20,
   },
-  text: {
-    fontSize: 16,
-    color: '#dddddd',
-    textAlign: 'center',
+  button: {
+    backgroundColor: '#F5B400',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#0A1633',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
