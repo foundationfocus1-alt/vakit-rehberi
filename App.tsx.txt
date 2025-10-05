@@ -1,0 +1,40 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>📿 Vakit Rehberi</Text>
+      <Text style={styles.subtitle}>Hoşgeldiniz 🙌</Text>
+      <Text style={styles.text}>
+        Burada namaz vakitleri, kıble, Kur’an, hadis ve dualar olacak.
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0A1633',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#F5B400',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#ffffff',
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16,
+    color: '#dddddd',
+    textAlign: 'center',
+  },
+});

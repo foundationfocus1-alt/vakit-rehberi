@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Vakit Rehberi",
+    "slug": "vakit-rehberi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/vakit_rehberi_logo.png",
+    "splash": {
+      "image": "./assets/images/vakit_rehberi_logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A1633"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/vakit_rehberi_logo.png",
+        "backgroundColor": "#0A1633"
+      },
+      "package": "com.vakitrehberi.app"
+    },
+    "web": {
+      "favicon": "./assets/images/vakit_rehberi_logo.png"
+    },
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#0A1633"
+  }
+}
