@@ -1,35 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 
 export default function App() {
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [sound, setSound] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   async function playSound() {
-    console.log('Ezan sesi çalınıyor...');
-    const { sound } = await Audio.Sound.createAsync(
-      require('./assets/sounds/ezan.mp3')
-    );
-    setSound(sound);
-    await sound.playAsync();
+    try {
+      setLoading(true);
+      // local path: assets/sounds/ezan.mp3
+      const { sound } = await Audio.Sound.createAsync(
+        require('./assets/sounds/ezan.mp3')
+      );
+      setSound(sound);
+      await sound.playAsync();
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      Alert.alert('Hata', 'Ses çalınamadı. Dosya yolu doğru mu?');
+      console.error(e);
+    }
   }
 
   React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Ezan sesi kapatılıyor...');
-          sound.unloadAsync();
-        }
-      : undefined;
+    return () => {
+      if (sound) {
+        sound.unloadAsync().catch(()=>{});
+      }
+    };
   }, [sound]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>📿 Vakit Rehberi</Text>
       <Text style={styles.subtitle}>Hoşgeldiniz 🙌</Text>
-      <TouchableOpacity style={styles.button} onPress={playSound}>
-        <Text style={styles.buttonText}>▶️ Ezan Sesini Çal</Text>
+
+      <TouchableOpacity style={styles.button} onPress={playSound} disabled={loading}>
+        <Text style={styles.buttonText}>{loading ? 'Yükleniyor…' : '▶️ Ezan Sesini Çal'}</Text>
       </TouchableOpacity>
+
+      <Text style={styles.small}>Logo ve ses assets/ altında olmalı</Text>
     </View>
   );
 }
@@ -65,4 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  small: {
+    marginTop: 18,
+    color: '#cbd5e1'
+  }
 });
