@@ -41,4 +41,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0A1633',
     alignItems: 'center',
-    jus
+    justifyContent: 'center',
+    padding: 20,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+    resizeMode: 'contain'
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#F5B400',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#ffffff',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#F5B400',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#0A1633',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
