@@ -1,46 +1,37 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Audio } from 'expo-av';
 
 export default function App() {
-  const [sound, setSound] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
   async function playSound() {
-    try {
-      setLoading(true);
-      // local path: assets/sounds/ezan.mp3
-      const { sound } = await Audio.Sound.createAsync(
-        require('./assets/sounds/ezan.mp3')
-      );
-      setSound(sound);
-      await sound.playAsync();
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-      Alert.alert('Hata', 'Ses çalınamadı. Dosya yolu doğru mu?');
-      console.error(e);
-    }
+    console.log('Ezan sesi çalınıyor...');
+    const { sound } = await Audio.Sound.createAsync(
+      require('./assets/sounds/ezan.mp3')
+    );
+    setSound(sound);
+    await sound.playAsync();
   }
 
   React.useEffect(() => {
-    return () => {
-      if (sound) {
-        sound.unloadAsync().catch(()=>{});
-      }
-    };
+    return sound
+      ? () => {
+          console.log('Ezan sesi kapatılıyor...');
+          sound.unloadAsync();
+        }
+      : undefined;
   }, [sound]);
 
   return (
     <View style={styles.container}>
+      <Image source={require('./assets/images/vakit_rehberi_logo.png')} style={styles.logo} />
       <Text style={styles.title}>📿 Vakit Rehberi</Text>
       <Text style={styles.subtitle}>Hoşgeldiniz 🙌</Text>
 
-      <TouchableOpacity style={styles.button} onPress={playSound} disabled={loading}>
-        <Text style={styles.buttonText}>{loading ? 'Yükleniyor…' : '▶️ Ezan Sesini Çal'}</Text>
+      <TouchableOpacity style={styles.button} onPress={playSound}>
+        <Text style={styles.buttonText}>▶️ Ezan Sesini Çal</Text>
       </TouchableOpacity>
-
-      <Text style={styles.small}>Logo ve ses assets/ altında olmalı</Text>
     </View>
   );
 }
@@ -50,34 +41,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0A1633',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#F5B400',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 20,
-    color: '#ffffff',
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: '#F5B400',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: '#0A1633',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  small: {
-    marginTop: 18,
-    color: '#cbd5e1'
-  }
-});
+    jus
